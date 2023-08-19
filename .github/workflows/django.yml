@@ -21,18 +21,18 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Set up .env file
+      run: |
+        touch ./django_project/.env
+        echo DB_NAME="django_db" >> ./django_project/.env
+        echo DB_USER="postgres" >> ./django_project/.env
+        echo DB_PASS="postgres" >> ./django_project/.env
+        echo DB_HOST="localhost" >> ./django_project/.env
+        echo DB_PORT="5432" >> ./django_project/.env
+        echo SECRET_KEY="^%yvj*u_0(ila@6w9dg38nu%px!0sb2fd%9=4!%vu)x(wa6l_&" >> ./django_project/.env
+        cat ./django_project/.env
     - name: Install Dependencies
       run: |
-        
-        touch .env
-        echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
-        echo DB_NAME="django_db" >> .env
-        echo DB_USER="postgres" >> .env
-        echo DB_PASS="postgres" >> .env
-        echo DB_HOST="localhost" >> .env
-        echo DB_PORT="5432" >> .env
-        echo SECRET_KEY="^%yvj*u_0(ila@6w9dg38nu%px!0sb2fd%9=4!%vu)x(wa6l_&" >> .env
-        cat .env
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
