@@ -21,6 +21,9 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+    - uses: harmon758/postgresql-action@v1
+      with:
+        postgresql version: '11'
     - name: Set up .env file
       run: |
         touch ./django_project/.env
@@ -35,6 +38,8 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Run migrations
+      run: python manage.py migrate
     - name: Run Tests
       run: |
         python manage.py test
