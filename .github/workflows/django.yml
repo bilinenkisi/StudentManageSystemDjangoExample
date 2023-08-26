@@ -21,25 +21,12 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: harmon758/postgresql-action@v1
-      with:
-        postgresql version: '11'
-    - name: Set up .env file
-      run: |
-        touch ./django_project/.env
-        echo DB_NAME="django_db" >> ./django_project/.env
-        echo DB_USER="postgres" >> ./django_project/.env
-        echo DB_PASS="postgres" >> ./django_project/.env
-        echo DB_HOST="localhost" >> ./django_project/.env
-        echo DB_PORT="5432" >> ./django_project/.env
-        echo SECRET_KEY="^%yvj*u_0(ila@6w9dg38nu%px!0sb2fd%9=4!%vu)x(wa6l_&" >> ./django_project/.env
-        cat ./django_project/.env
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run migrations
-      run: python manage.py migrate
+      run: python manage.py migrate --settings=django_project.settings.test
     - name: Run Tests
       run: |
-        python manage.py test
+        python manage.py test --settings=django_project.settings.test
